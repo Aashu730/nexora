@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import Compare from "./pages/Compare";
 import Decision from "./pages/Decision";
 import Profile from "./pages/Profile";
+import Saved from "./pages/Saved";
+import Analytics from "./pages/Analytics";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -36,6 +38,15 @@ function App() {
         />
 
         <Route
+          path="/decision"
+          element={
+            <ProtectedRoute>
+              <Decision />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/compare"
           element={
             <ProtectedRoute>
@@ -45,10 +56,19 @@ function App() {
         />
 
         <Route
-          path="/decision"
+          path="/saved"
           element={
             <ProtectedRoute>
-              <Decision />
+              <Saved />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
             </ProtectedRoute>
           }
         />

@@ -6,14 +6,14 @@ import {
   serverTimestamp,
   where,
   orderBy,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 export async function saveDecision(question, answer) {
   const user = auth.currentUser;
-
   if (!user) throw new Error("Please login first.");
-  if (!question || !answer) throw new Error("Question and answer are required.");
 
   await addDoc(collection(db, "decisions"), {
     uid: user.uid,
@@ -27,7 +27,6 @@ export async function saveDecision(question, answer) {
 
 export async function getUserDecisions() {
   const user = auth.currentUser;
-
   if (!user) throw new Error("Please login first.");
 
   const q = query(
@@ -38,8 +37,12 @@ export async function getUserDecisions() {
 
   const snapshot = await getDocs(q);
 
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
+  return snapshot.docs.map((item) => ({
+    id: item.id,
+    ...item.data(),
   }));
+}
+
+export async function deleteDecision(id) {
+  await deleteDoc(doc(db, "decisions", id));
 }
